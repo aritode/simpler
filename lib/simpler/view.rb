@@ -41,12 +41,12 @@ module Simpler
         case template
         when String
           HtmlRender.new(template_path)
-        when nil
-          HtmlRender.new(template_path)
         when Hash
           if template.has_key?(:plain)
             PlainRender.new(template)
           end
+        else
+          HtmlRender.new(template_path)
         end
     end
 
