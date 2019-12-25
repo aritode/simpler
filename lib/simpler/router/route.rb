@@ -2,23 +2,22 @@ module Simpler
   class Router
     class Route
 
-      attr_reader :controller, :action, :params
+      attr_reader :controller, :action
 
       def initialize(method, path, controller, action)
         @method = method
         @path = path
         @controller = controller
         @action = action
-        @params = {}
       end
 
-      def match?(method, path)
-        @method == method && parse_path(path)
+      def match?(method, path, env)
+        @method == method && parse_path(path, env)
       end
 
       private
 
-      def parse_path(path)
+      def parse_path(path, env)
         params = {}
         router_parts = @path.split('/')
         request_parts = path.split('/')
@@ -35,7 +34,7 @@ module Simpler
           end
         end
 
-        @params = params
+        env['simpler.params'] = params
       end
 
     end
